@@ -50,44 +50,24 @@ class Animal {
         if (this.constructor === Animal) {
             throw new Error("Abstract class Animal can't be instantiated.");
         }
-
-        if (this.sound === undefined) {
-            throw new Error('Method sound should be implemented');
-        }
-
         this.name = name;
     }
-}
 
-class Dog extends Animal {
-    sound() {
-        console.log(`${this.name} sound is: woof`);
+    printName() {
+        console.log(`This animal is called ${this.name}`);
     }
 }
 
-class Cat extends Animal {
-    sound() {
-        console.log(`${this.name} sound is: miau`);
-    }
+function createAnimalInstance() {
+    return Animal.prototype;
 }
 
-function createDog(name) {
-    return new Dog(name);
-}
+let dog = createAnimalInstance();
+dog.name = "Ruffy";
+dog.printName();
 
-function createCat(name) {
-    return new Cat(name);
-}
-
-const dog1 = createDog("Bob")
-const dog2 = createDog("Ruffy");
-const cat1 = createCat("kyo");
-const cat2 = createCat("Kaya");
-
-dog1.sound();
-dog2.sound();
-cat1.sound();
-cat2.sound();
-
+let cat = createAnimalInstance();
+cat.name = "Kyo";
+cat.printName();
 
 console.log("*** THE END ***");
