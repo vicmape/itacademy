@@ -47,7 +47,7 @@ p2.dirNom();
 
 class Animal {
     constructor(name) {
-        if (this.constructor == Animal) {
+        if (this.constructor === Animal) {
             throw new Error("Abstract class Animal can't be instantiated.");
         }
 
