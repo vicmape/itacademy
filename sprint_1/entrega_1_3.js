@@ -1,52 +1,38 @@
-// let greeting = name => console.log(`Hello ${name}`);
+// N1 E1
+// Crea una funció que retorni una Promise que invoqui la funció resolve() o reject() que rep.
+// Invoca-la passant-li les dues funcions de manera que imprimeixin un missatge diferent depenent de si la Promise es resol o no.
 
-// const userInfo = (firstName, lastName, callback) => {
-//     const fullname = `${firstName} ${lastName}`;
-//     callback(fullname);
-// }
+function doCombat(youWin){
 
-// userInfo("Victor", "Machado", greeting);
-const hasMeeting = true;
-
-const meeting = new Promise((resolve, reject) => {
-    if (!hasMeeting) {
-        const meetingDetails = {
-            name: "Marketing",
-            location:"skype"
+    const combat = new Promise((resolve, reject) => {
+        if (youWin) {
+            resolve("You win!");
+        } else {
+            reject(new Error("You loose!"));
         }
-        resolve(meetingDetails);
-    } else {
-        reject(new Error("Meeting already scheduled"));
-    }
-});
 
-const addToCalendar = meetingDetails => {
-    const calendar = `${meetingDetails.name} scheduled on ${meetingDetails.location}`;
-    return Promise.resolve(calendar);
+    });
+
+    return combat;
 }
 
-
-// meeting
-//     .then (addToCalendar)
-//     .then ( res => {
-//         // resolve data
-//         console.log("Meeting scheduled");
-//         console.log (res);
-//     })
-//     .catch ( err => {
-//         // reject data
-//         console.log(err.message);
-//     })
-
-
-async function myMeeting() {
-    try {
-        const meetingDetails = await meeting;
-        const message = await addToCalendar(meetingDetails);
-        console.log(message);
-    } catch (err){
+doCombat(true)
+    .then ( res => {
+        // resolve data
+        console.log(res);
+    })
+    .catch ( err => {
+        // reject data
         console.log(err.message);
-    }
-}
+    })
 
-myMeeting();
+doCombat(false)
+    .then ( res => {
+        // resolve data
+        console.log(res);
+    })
+    .catch ( err => {
+        // reject data
+        console.log(err.message);
+    })
+
