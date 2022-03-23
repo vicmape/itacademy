@@ -45,8 +45,9 @@ peterPhrase("Ben", phrase);
 peterPhrase("May", phrase);
 
 
+// N2 E1
+// Donats els objectes employees i salaries, crea una arrow function getEmployee() que retorni una Promise efectuant la cerca en l'objecte pel seu id.
 
-/*****/
 let employees = [{
     id: 1,
     name: 'Linux Torvalds'
@@ -68,10 +69,7 @@ let salaries = [{
     id: 3,
     salary: 2000
 }];
-/******/
 
-// N2 E1
-// Donats els objectes employees i salaries, crea una arrow function getEmployee() que retorni una Promise efectuant la cerca en l'objecte pel seu id.
 
 let getEmployee = (id) => {
 
@@ -140,8 +138,12 @@ getSalary("Victor Machado")
     .catch (err => {console.log(err.message)})
 
 
-// N2 E3 && N3 E1
+// N2 E3
 // Invoca la primera funció getEmployee() i després getSalary() niant l'execució de les dues promises.
 
 Promise.all([getEmployee(1), getSalary("Linux Torvalds")]).then(res => {console.log(res)}).catch(err => {console.log(err.message)});
+
+
+// N3 E1
+// Fixa un element catch a la invocació del nivell anterior que capturi qualsevol error i el mostri per la consola.
 Promise.all([getEmployee(1), getSalary("Victor Machado")]).then(res => {console.log(res)}).catch(err => {console.log(err.message)});
