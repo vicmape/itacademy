@@ -1,3 +1,66 @@
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// README //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+/*
+
+This file delivers sprint_1, entrega1.5.
+
+It has the needed function definitions at the beggining of the file, such as:
+fileSystem, encoding/decoding and crypto functions.
+
+Each exercice has its solution commented so it can be tested one by one.
+
+
+For testing N1 E1 uncomment line executing
+     // recursiveMessage();
+
+
+For testing N1 E2 uncomment line executing 
+    // writeFile(file, sentence);
+and check that test.txt file is created.
+
+
+For testing N1 E3 uncomment line executing
+    // printFile(file);
+and check that test.txt file is printed out via console
+
+
+For testing N2 E1 uncomment line executing
+    // do_gzip(file, `${file}.gz`)
+    //     .then (() => {
+    //         console.log("File compressed successfully.");
+    //     })
+    //     .catch((err) => {
+    //         console.error('An error occurred:', err);
+    //         process.exitCode = 1;
+    //     });
+and check that test.txt.gz file is created
+
+
+For testing N2 E2 uncomment line executing 
+    // ls();
+function and check that directory is printed out via console
+
+For testing N3 E1 uncomment line executing 
+    // createEncodeFiles(file);
+and check that test_hex.txt and test_base64.txt files are created
+
+Then, uncomment 
+    // cipherAndDeleteFile(fileHex);
+    // cipherAndDeleteFile(fileBase64); 
+to check that both files have been encrypted.
+
+Then, uncomment 
+    // decipherAndDeleteFile(fileHex);
+    // decipherAndDeleteFile(fileBase64);
+to check that both files have been decrypted.
+
+Finally, uncomment 
+    // console.log(hexDecode(readFile(fileHex)));
+    // console.log(base64Decode(readFile(fileBase64)));
+to check that everything went fine :)
+
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////// FILE SYSTEM FUNCTIONS ///////////////////////////////////
@@ -6,7 +69,6 @@
 const fs = require('fs');
 
 function writeFile(filePath, content) {
-
     try {
         fs.writeFileSync(filePath, content);
         console.log(`File ${filePath} writen successfully.`);
@@ -33,120 +95,33 @@ function printFile(filePath) {
 }
 
 function deleteFile(filePath) {
-  try {
-    fs.unlinkSync(filePath)
-    console.log (`${filePath} deleted`);
-  } catch(err) {
-    console.error(err)
-  }
+    try {
+        fs.unlinkSync(filePath)
+        console.log (`${filePath} deleted`);
+    } catch(err) {
+        console.error(err)
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-// N1 E1
-// Crea una funció que imprimeixi recursivament un missatge per la consola amb demores d'un segon.
-let i = 1;
-function recursiveMessage() {
-    setTimeout(() => {
-        console.log(`Seconds counter: ${i++}`);
-        recursiveMessage();
-    }, 1000);
-}
-
-//recursiveMessage();
-
-// N1 E2
-// Crea una funció que, en executar-la, escrigui una frase en un fitxer.
-
-const filePath = './test.txt';
-const sentence = 'Saitama beats Goku. Prove me wrong.';
-
-writeFile(filePath, sentence);
-
-
-// N1 E3
-// Crea una funció que, en executar-la, escrigui una frase en un fitxer.
-
-
-/*
-
-
-printFile(filePath);
-
-
-// N2 E1
-// Crea una funció que comprimeixi el fitxer del nivell 1.
-
-const { createGzip } = require('zlib');
-const { pipeline } = require('stream');
-const { promisify } = require('util');
-const {
-  createReadStream,
-  createWriteStream
-} = require('fs');
-
-
-const pipe = promisify(pipeline);
-
-async function do_gzip(input, output) {
-  const gzip = createGzip();
-  const source = createReadStream(input);
-  const destination = createWriteStream(output);
-  await pipe(source, gzip, destination);
-}
-
-do_gzip(filePath, `${filePath}.gz`)
-    .then (() => {
-        console.log("File compressed successfully.");
-    })
-    .catch((err) => {
-        console.error('An error occurred:', err);
-        process.exitCode = 1;
-    });
-
-
-// N2 E2
-// Crea una funció que llisti per la consola el contingut del directori d'usuari de l'ordinador utilizant Node Child Processes.
-
-const { spawn } = require('child_process');
-const ls = spawn('dir', ["C:\\users\\formacio"], {shell: true});
-
-ls.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
-
-ls.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
-
-ls.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
-
-*/
-
-///////////////////////////////////////////////////////////////////////////////
-/////////////////////////// UTILS FUNCTIONS ///////////////////////////////////
+/////////////////////////// ENCODING FUNCTIONS ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-String.prototype.hexEncode = function(){
+function hexEncode(data) {
     let hex;
     let result = "";
 
-    for (let i = 0; i < this.length; i++) {
-        hex = this.charCodeAt(i).toString(16);
+    for (let i = 0; i < data.length; i++) {
+        hex = data.charCodeAt(i).toString(16);
         result += ("000"+hex).slice(-4);
     }
 
     return result
 }
 
-String.prototype.hexDecode = function(){
+function hexDecode(data) {
 
-    let hexes = this.match(/.{1,4}/g) || [];
+    let hexes = data.match(/.{1,4}/g) || [];
     let back = "";
     for(let j = 0; j<hexes.length; j++) {
         back += String.fromCharCode(parseInt(hexes[j], 16));
@@ -163,6 +138,9 @@ function base64Decode(data) {
     return Buffer.from(data, 'base64').toString('utf8');
 }
 
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////// CRYPTO FUNCTIONS ////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 const crypto = require('crypto');
 const ENC_KEY = "bf3c199c2470cb477d907b1e0917c17b"; // set random encryption key
@@ -186,70 +164,133 @@ var encrypt = ((val) => {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+
+
+// CONSTANTS
+const file = './test.txt';
+const fileHex = './test_hex.txt';
+const fileBase64 = './test_base64.txt';
+const sentence = 'Saitama beats Goku. Prove me wrong.';
+
+
+// N1 E1
+// Crea una funció que imprimeixi recursivament un missatge per la consola amb demores d'un segon.
+let i = 1;
+function recursiveMessage() {
+    setTimeout(() => {
+        console.log(`Seconds counter: ${i++}`);
+        recursiveMessage();
+    }, 1000);
+}
+
+//recursiveMessage();
+
+
+// N1 E2
+// Crea una funció que, en executar-la, escrigui una frase en un fitxer.
+
+//writeFile(file, sentence);
+
+
+// N1 E3
+// Crea una altra funció que mostri per consola el contingut del fitxer de l'exercici anterior.
+
+//printFile(file);
+
+
+// N2 E1
+// Crea una funció que comprimeixi el fitxer del nivell 1.
+
+const { createGzip } = require('zlib');
+const { pipeline } = require('stream');
+const { promisify } = require('util');
+const {
+  createReadStream,
+  createWriteStream
+} = require('fs');
+const pipe = promisify(pipeline);
+
+async function do_gzip(input, output) {
+  const gzip = createGzip();
+  const source = createReadStream(input);
+  const destination = createWriteStream(output);
+  await pipe(source, gzip, destination);
+}
+
+// do_gzip(file, `${file}.gz`)
+//     .then (() => {
+//         console.log("File compressed successfully.");
+//     })
+//     .catch((err) => {
+//         console.error('An error occurred:', err);
+//         process.exitCode = 1;
+//     });
+
+
+// N2 E2
+// Crea una funció que llisti per la consola el contingut del directori d'usuari de l'ordinador utilizant Node Child Processes.
+
+function ls() {
+    const { spawn } = require('child_process');
+    const ls = spawn('dir', ["C:\\users\\formacio"], {shell: true});
+    
+    ls.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
+    
+    ls.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+    });
+    
+    ls.on('close', (code) => {
+      console.log(`child process exited with code ${code}`);
+    });
+}
+
+//ls()
+
+
 // N3 E1
 
-
-// Crea una altra funció que desencripti i descodifiqui els fitxers de l'apartat anterior tornant a generar una còpia de l'inicial
-// Inclou un README amb instruccions per a l'execució de cada part
-
-let fileHex = './test_hex.txt';
-let fileBase64 = './test_base64.txt';
-
 // Crea una funció que creï dos fitxers codificats en hexadecimal i en base64 respectivament, a partir del fitxer del nivell 1
-function createEncodeFiles(filePath) {
-    let myStr = readFile(filePath);
-    //console.log(myStr);
-    let myStrHex = myStr.hexEncode();
-    //console.log(myStrHex);
+function createEncodeFiles(file) {
+    let myStr = readFile(file);
+    let myStrHex = hexEncode(myStr);
     let myStrBase64 = base64Encode(myStr);
-    //console.log(myStrBase64);
 
     writeFile(fileHex, myStrHex);
     writeFile(fileBase64, myStrBase64);
 }
 
-createEncodeFiles(filePath);
+//createEncodeFiles(file);
 
 // Crea una funció que guardi els fitxers del punt anterior, ara encriptats amb l'algorisme aes-192-cbc, i esborri els fitxers inicials
 // NOTA: He utilitzat l'algoritme aes-256-cbc, en comptes del deprecat aes-192-cbc
 
-function cipherAndDeleteFile(filePath) {
-    let data = readFile(filePath);
+function cipherAndDeleteFile(file) {
+    let data = readFile(file);
     let encrypted_data = encrypt(data);
-    writeFile(`${filePath}.enc`, encrypted_data);
-
+    writeFile(`${file}.enc`, encrypted_data);
+    deleteFile(file);
 }
 
-
-cipherAndDeleteFile(fileHex);
-cipherAndDeleteFile(fileBase64);
-
-/*
-const phrase = "who let the dogs out";
-
-let encrypted_key = encrypt(phrase);
-console.log(encrypted_key);
-
-let original_phrase = decrypt(encrypted_key);
-console.log(original_phrase);
-*/
+// cipherAndDeleteFile(fileHex);
+// cipherAndDeleteFile(fileBase64);
 
 
+// Crea una altra funció que desencripti i descodifiqui els fitxers de l'apartat anterior tornant a generar una còpia de l'inicial
+function decipherAndDeleteFile(file) {
 
-/*
-let myStr = "abc";
-console.log(myStr);
+    let encrypted_data = readFile(`${file}.enc`);
+    let data = decrypt(encrypted_data);
+    writeFile(file, data);
+    deleteFile(`${file}.enc`);
+}
 
-let myStrHex = myStr.hexEncode();
-console.log(myStrHex);
+// decipherAndDeleteFile(fileHex);
+// decipherAndDeleteFile(fileBase64);
 
-let myStrHexDec = myStrHex.hexDecode();
-console.log(myStrHexDec);
 
-let myStrBase64 = base64Encode(myStr);
-console.log(myStrBase64);
-
-let mystrBase64Dec = base64Decode(myStrBase64)
-console.log(mystrBase64Dec);
-*/
-
+// Final check that all went fine
+// console.log(hexDecode(readFile(fileHex)));
+// console.log(base64Decode(readFile(fileBase64)));
