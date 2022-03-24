@@ -59,7 +59,7 @@ class Animal {
 }
 
 function createAnimalInstance() {
-    return Animal.prototype;
+    return Object.create(Animal.prototype);
 }
 
 let dog = createAnimalInstance();
@@ -69,5 +69,9 @@ dog.printName();
 let cat = createAnimalInstance();
 cat.name = "Kyo";
 cat.printName();
+
+console.log(dog instanceof Animal);
+console.log(cat instanceof Animal);
+
 
 console.log("*** THE END ***");
