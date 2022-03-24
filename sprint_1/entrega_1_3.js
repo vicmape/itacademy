@@ -76,74 +76,57 @@ let getEmployee = (id) => {
     return new Promise((resolve, reject) => {
         for (let i = 0; i < employees.length; i++){
             if (employees[i].id === id) {
-                resolve (`This id: ${id} corresponds to employee called ${employees[i].name}`);
+                resolve (employees[i]);
             }
         }
         reject (new Error(`This id: ${id} does not correspond to any employee`));
     });
+};
+
+
+for (let i = 1; i <= 4; i++) {
+    getEmployee(i)
+    .then (res => { console.log(res);})
+    .catch (err => {console.log(err.message);})
 }
-
-
-getEmployee(1)
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
-getEmployee(2)
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
-getEmployee(3)
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
-getEmployee(4)
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
 
 
 // // N2 E2
 // // Crea una altra arrow function getSalary() similar a l'anterior que rebi com a paràmetre un objecte employee i retorni el seu salari.
-let getSalary = (name) => {
+let getSalary = (employee) => {
 
-    return new Promise((resolve, reject) => {
-
-        let employeeId = null;
-        for (let i = 0; i < employees.length; i++){
-            if (employees[i].name === name){
-                employeeId = employees[i].id;
-                break;
-            }
-        }
-
-        let employeeSalary = null;
+    return new Promise ((res, rej) => {
         for (let i = 0; i < salaries.length; i++){
-            if (salaries[i].id === employeeId) {
-                employeeSalary = salaries[i].salary; 
-                resolve (`Employee ${name} earns ${employeeSalary} $ per month.`);
+            if (salaries[i].id === employee.id) {
+                res (salaries[i].salary);
             }
         }
+        rej(new Error (`This employee ${employee} does not work for this company`));
 
-        reject (new Error(`Error: Employee ${name} does not work for this company.`));
     });
+};
+
+for (let i = 1; i <= 4; i++) {
+    getEmployee(i)
+    .then (res => {
+        getSalary(res)
+        .then (sal => {
+                console.log(`This employee ${res.name} earns ${sal} $`);
+            })
+        .catch (err => {console.log(err.message);});
+    })
+    .catch (err => {console.log(err.message);});
 }
 
-getSalary("Linux Torvalds")
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
-getSalary("Bill Gates")
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
-getSalary("Jeff Bezos")
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
-getSalary("Victor Machado")
-    .then (res => { console.log(res)})
-    .catch (err => {console.log(err.message)})
 
 
 // N2 E3
 // Invoca la primera funció getEmployee() i després getSalary() niant l'execució de les dues promises.
 
-Promise.all([getEmployee(1), getSalary("Linux Torvalds")]).then(res => {console.log(res)}).catch(err => {console.log(err.message)});
+// Already done in N2 E2
 
 
 // N3 E1
 // Fixa un element catch a la invocació del nivell anterior que capturi qualsevol error i el mostri per la consola.
-Promise.all([getEmployee(1), getSalary("Victor Machado")]).then(res => {console.log(res)}).catch(err => {console.log(err.message)});
+
+// Already done in N2 E2
