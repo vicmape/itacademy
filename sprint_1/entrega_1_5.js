@@ -232,7 +232,7 @@ async function do_gzip(input, output) {
 
 function ls() {
     const { spawn } = require('child_process');
-    const ls = spawn('dir', ["C:\\users\\formacio"], {shell: true});
+    const ls = spawn('dir', ['~'], {shell: true});
     
     ls.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);
@@ -247,7 +247,7 @@ function ls() {
     });
 }
 
-//ls()
+ls()
 
 
 // N3 E1
