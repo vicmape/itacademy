@@ -131,5 +131,5 @@ for (let i = 1; i <= 4; i++) {
 
 // Already done in N2 E2
 
-export.getEmployee = getEmployee;
-export.getSalary = getSalary;
+exports.getEmployee = getEmployee;
+exports.getSalary = getSalary;
