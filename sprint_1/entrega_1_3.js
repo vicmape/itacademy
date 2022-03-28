@@ -130,3 +130,6 @@ for (let i = 1; i <= 4; i++) {
 // Fixa un element catch a la invocació del nivell anterior que capturi qualsevol error i el mostri per la consola.
 
 // Already done in N2 E2
+
+export.getEmployee = getEmployee;
+export.getSalary = getSalary;

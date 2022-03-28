@@ -104,3 +104,4 @@ async function asyncFunc() {
 // Already done.
 exports.getEmployee = getEmployee;
 exports.getSalary = getSalary;
+exports.delayedProm = makeDelayedPromise;
