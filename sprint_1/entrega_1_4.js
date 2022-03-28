@@ -38,23 +38,23 @@ const getEmployee = (id) => {
 }
 
 const getSalary = (employee) => {
-    return salaries.find(id => employee.id).salary;
+    return salaries.find(id => id.id == employee.id).salary;
 }
 
 // employees.length + 1 to generate an error in the calls
-for (let i = 0; i < employees.length + 1; i++) {
-    try {
+// for (let i = 0; i < employees.length + 1; i++) {
+//     try {
 
-        getEmployee(i)
-        .then(res => {
-            console.log(res);
-            console.log(`Salary: ${getSalary(res)}`);
-        })
-        .catch(err => console.log(err.message));
-    } catch (err) {
-        console.log ("This catch here is for top level error catching");
-    }
-}
+//         getEmployee(i)
+//         .then(res => {
+//             console.log(res);
+//             console.log(`Salary: ${getSalary(res)}`);
+//         })
+//         .catch(err => console.log(err.message));
+//     } catch (err) {
+//         console.log ("This catch here is for top level error catching");
+//     }
+// }
 
 
 // N1 E2
@@ -70,10 +70,10 @@ async function myEmployee(id) {
 
     }
 }
-myEmployee(1);
-myEmployee(2);
-myEmployee(3);
-myEmployee(4);
+// myEmployee(1);
+// myEmployee(2);
+// myEmployee(3);
+// myEmployee(4);
 
 
 // N2 E1
@@ -96,9 +96,11 @@ async function asyncFunc() {
     }
 }
 
-asyncFunc();
+//asyncFunc();
 
 // N3 E1
 // Captura tots els errors possibles dels nivells 1 i 2.
 
 // Already done.
+exports.getEmployee = getEmployee;
+exports.getSalary = getSalary;
