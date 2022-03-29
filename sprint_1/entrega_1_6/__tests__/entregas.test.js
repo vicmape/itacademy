@@ -74,5 +74,14 @@ test('Check constructor of class Persona', () => {
     const spyDirNom = jest.spyOn(persona, 'dirNom');
     persona.dirNom();
     expect(spyDirNom).toHaveBeenCalledTimes(1);
+});
 
+
+// Verifica mitjançant tests l'exercici Classes & Arrow Functions Nivell 3 - Exercici 1.
+
+test('Check instance of abstract class', () => {
+    jest.unmock('../../entrega_1_2');
+    const e_1_2 = require('../../entrega_1_2');
+    let dog = e_1_2.createAnimalInstance();
+    expect(dog instanceof e_1_2.Animal).toBe(true);
 });

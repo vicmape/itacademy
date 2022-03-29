@@ -75,3 +75,7 @@ console.log(cat instanceof Animal);
 
 
 console.log("*** THE END ***");
+
+exports.Persona = Persona;
+exports.Animal = Animal;
+exports.createAnimalInstance = createAnimalInstance;
