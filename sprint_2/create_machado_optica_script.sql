@@ -3,15 +3,13 @@ CREATE SCHEMA `optica_machado` DEFAULT CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS `optica_machado`.`address` (
   `address_id` INT NOT NULL AUTO_INCREMENT,
-  `address_street` VARCHAR(45) NULL,
-  `address_num` INT NULL,
-  `address_floor` INT NULL,
-  `address_door` INT NULL,
-  `address_city` VARCHAR(45) NULL,
-  `address_postal_code` INT NULL,
-  `address_country` VARCHAR(45) NULL,
-  `address_modified` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `address_created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `address_street` VARCHAR(45) NOT NULL,
+  `address_num` INT NOT NULL,
+  `address_floor` INT NOT NULL,
+  `address_door` INT NOT NULL,
+  `address_city` VARCHAR(45) NOT NULL,
+  `address_postal_code` INT NOT NULL,
+  `address_country` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`address_id`))
 ENGINE = InnoDB;
 
@@ -19,25 +17,21 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`employee` (
   `employee_id` INT NOT NULL AUTO_INCREMENT,
   `employee_first_name` VARCHAR(45) NOT NULL,
   `employee_last_name` VARCHAR(45) NOT NULL,
-  `employee_modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `employee_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`employee_id`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `optica_machado`.`frame_type` (
   `frame_type_id` INT NOT NULL AUTO_INCREMENT,
-  `frame_type` VARCHAR(45) NULL,
+  `frame_type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`frame_type_id`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `optica_machado`.`provider` (
   `provider_id` INT NOT NULL AUTO_INCREMENT,
-  `provider_name` VARCHAR(45) NULL,
-  `provider_telephone` INT NULL,
-  `provider_fax` INT NULL,
-  `provider_nif` VARCHAR(45) NULL,
-  `provider_modified` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `provider_created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `provider_name` VARCHAR(45) NOT NULL,
+  `provider_telephone` INT NOT NULL,
+  `provider_fax` INT NOT NULL,
+  `provider_nif` VARCHAR(45) NOT NULL,
   `address_id` INT NOT NULL,
   PRIMARY KEY (`provider_id`, `address_id`),
   INDEX `fk_provider_address1_idx` (`address_id` ASC) VISIBLE,
@@ -63,13 +57,11 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `optica_machado`.`glasses` (
   `glasses_id` INT NOT NULL AUTO_INCREMENT,
-  `glasses_grad_left` FLOAT NULL,
-  `glasses_grad_right` FLOAT NULL,
-  `glasses_frame_color` VARCHAR(45) NULL,
-  `glasses_glass_color` VARCHAR(45) NULL,
-  `glasses_price` DECIMAL(7,2) NULL,
-  `glasses_modified` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `glasses_created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `glasses_grad_left` FLOAT NOT NULL,
+  `glasses_grad_right` FLOAT NOT NULL,
+  `glasses_frame_color` VARCHAR(45) NOT NULL,
+  `glasses_glass_color` VARCHAR(45) NOT NULL,
+  `glasses_price` DECIMAL(7,2) NOT NULL,
   `frame_type_id` INT NOT NULL,
   `brand_brand_id` INT NOT NULL,
   PRIMARY KEY (`glasses_id`, `brand_brand_id`, `frame_type_id`),
@@ -89,16 +81,14 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `optica_machado`.`client` (
   `client_id` INT NOT NULL AUTO_INCREMENT,
-  `client_telephone` INT NULL,
-  `client_email` VARCHAR(255) NULL,
-  `client_created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `client_modified` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `client_recommended_by` INT NULL,
-  `address_address_id` INT NOT NULL,
-  PRIMARY KEY (`client_id`, `address_address_id`),
-  INDEX `fk_client_address1_idx` (`address_address_id` ASC) VISIBLE,
+  `client_telephone` INT NOT NULL,
+  `client_email` VARCHAR(255) NOT NULL,
+  `client_recommended_by` INT NOT NULL,
+  `address_id` INT NOT NULL,
+  PRIMARY KEY (`client_id`, `address_id`),
+  INDEX `fk_client_address1_idx` (`address_id` ASC) VISIBLE,
   CONSTRAINT `fk_client_address1`
-    FOREIGN KEY (`address_address_id`)
+    FOREIGN KEY (`address_id`)
     REFERENCES `optica_machado`.`address` (`address_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
@@ -107,7 +97,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `optica_machado`.`sale` (
   `sale_id` INT NOT NULL AUTO_INCREMENT,
   `sale_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `sale_price` VARCHAR(45) NULL,
+  `sale_price` VARCHAR(45) NOT NULL,
   `client_id` INT NOT NULL,
   `employee_id` INT NOT NULL,
   `glasses_id` INT NOT NULL,
