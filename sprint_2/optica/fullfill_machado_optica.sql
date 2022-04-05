@@ -131,7 +131,7 @@ VALUES
 		(0000020, '20@gmail.com', 17, 29);
 
 
-INSERT INTO sale(sale_date, sale_price, client_id, glasses_id, employee_employee_id)
+INSERT INTO sale(sale_date, sale_price, client_id, glasses_id, employee_id)
 VALUES
 		('2022-6-26', 10.99, 10, 8, 3), 
 		('2021-10-24', 3.99, 2, 2, 7),

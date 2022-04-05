@@ -100,11 +100,11 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`sale` (
   `sale_price` DECIMAL(7,2) NOT NULL,
   `client_id` INT NOT NULL,
   `glasses_id` INT NOT NULL,
-  `employee_employee_id` INT NOT NULL,
+  `employee_id` INT NOT NULL,
   PRIMARY KEY (`sale_id`, `client_id`, `glasses_id`),
   INDEX `fk_sale_client1_idx` (`client_id` ASC) VISIBLE,
   INDEX `fk_sale_glasses1_idx` (`glasses_id` ASC) VISIBLE,
-  INDEX `fk_sale_employee1_idx` (`employee_employee_id` ASC) VISIBLE,
+  INDEX `fk_sale_employee1_idx` (`employee_id` ASC) VISIBLE,
   CONSTRAINT `fk_sale_client1`
     FOREIGN KEY (`client_id`)
     REFERENCES `optica_machado`.`clients` (`client_id`)
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`sale` (
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_sale_employee1`
-    FOREIGN KEY (`employee_employee_id`)
+    FOREIGN KEY (`employee_id`)
     REFERENCES `optica_machado`.`employee` (`employee_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
