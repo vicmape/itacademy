@@ -63,17 +63,17 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`glasses` (
   `glasses_glass_color` VARCHAR(45) NOT NULL,
   `glasses_price` DECIMAL(7,2) NOT NULL,
   `frame_type_id` INT NOT NULL,
-  `brand_brand_id` INT NOT NULL,
-  PRIMARY KEY (`glasses_id`, `brand_brand_id`, `frame_type_id`),
+  `brand_id` INT NOT NULL,
+  PRIMARY KEY (`glasses_id`, `brand_id`, `frame_type_id`),
   INDEX `fk_glasses_frame_type1_idx` (`frame_type_id` ASC) VISIBLE,
-  INDEX `fk_glasses_brand1_idx` (`brand_brand_id` ASC) VISIBLE,
+  INDEX `fk_glasses_brand1_idx` (`brand_id` ASC) VISIBLE,
   CONSTRAINT `fk_glasses_frame_type1`
     FOREIGN KEY (`frame_type_id`)
     REFERENCES `optica_machado`.`frame_type` (`frame_type_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_glasses_brand1`
-    FOREIGN KEY (`brand_brand_id`)
+    FOREIGN KEY (`brand_id`)
     REFERENCES `optica_machado`.`brand` (`brand_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`client` (
   `client_id` INT NOT NULL AUTO_INCREMENT,
   `client_telephone` INT NOT NULL,
   `client_email` VARCHAR(255) NOT NULL,
-  `client_recommended_by` INT NOT NULL,
+  `client_recommended_by` INT NULL,
   `address_id` INT NOT NULL,
   PRIMARY KEY (`client_id`, `address_id`),
   INDEX `fk_client_address1_idx` (`address_id` ASC) VISIBLE,
@@ -99,25 +99,25 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`sale` (
   `sale_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `sale_price` VARCHAR(45) NOT NULL,
   `client_id` INT NOT NULL,
-  `employee_id` INT NOT NULL,
   `glasses_id` INT NOT NULL,
-  PRIMARY KEY (`sale_id`, `client_id`, `employee_id`, `glasses_id`),
+  `employee_employee_id` INT NOT NULL,
+  PRIMARY KEY (`sale_id`, `client_id`, `glasses_id`),
   INDEX `fk_sale_client1_idx` (`client_id` ASC) VISIBLE,
-  INDEX `fk_sale_employee1_idx` (`employee_id` ASC) VISIBLE,
   INDEX `fk_sale_glasses1_idx` (`glasses_id` ASC) VISIBLE,
+  INDEX `fk_sale_employee1_idx` (`employee_employee_id` ASC) VISIBLE,
   CONSTRAINT `fk_sale_client1`
     FOREIGN KEY (`client_id`)
     REFERENCES `optica_machado`.`client` (`client_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_sale_employee1`
-    FOREIGN KEY (`employee_id`)
-    REFERENCES `optica_machado`.`employee` (`employee_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
   CONSTRAINT `fk_sale_glasses1`
     FOREIGN KEY (`glasses_id`)
     REFERENCES `optica_machado`.`glasses` (`glasses_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_sale_employee1`
+    FOREIGN KEY (`employee_employee_id`)
+    REFERENCES `optica_machado`.`employee` (`employee_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
