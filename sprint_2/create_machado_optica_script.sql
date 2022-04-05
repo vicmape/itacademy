@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`glasses` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `optica_machado`.`client` (
+CREATE TABLE IF NOT EXISTS `optica_machado`.`clients` (
   `client_id` INT NOT NULL AUTO_INCREMENT,
   `client_telephone` INT NOT NULL,
   `client_email` VARCHAR(255) NOT NULL,
@@ -96,8 +96,8 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `optica_machado`.`sale` (
   `sale_id` INT NOT NULL AUTO_INCREMENT,
-  `sale_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `sale_price` VARCHAR(45) NOT NULL,
+  `sale_date` DATE NOT NULL,
+  `sale_price` DECIMAL(7,2) NOT NULL,
   `client_id` INT NOT NULL,
   `glasses_id` INT NOT NULL,
   `employee_employee_id` INT NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `optica_machado`.`sale` (
   INDEX `fk_sale_employee1_idx` (`employee_employee_id` ASC) VISIBLE,
   CONSTRAINT `fk_sale_client1`
     FOREIGN KEY (`client_id`)
-    REFERENCES `optica_machado`.`client` (`client_id`)
+    REFERENCES `optica_machado`.`clients` (`client_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_sale_glasses1`
