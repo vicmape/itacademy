@@ -9,30 +9,18 @@ CREATE TABLE IF NOT EXISTS `pizzeria_machado`.`categoria_productes` (
   UNIQUE INDEX `categoria_UNIQUE` (`categoria` ASC) VISIBLE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `pizzeria_machado`.`tipus_productes` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nom` VARCHAR(45) NOT NULL,
-  `categoria_productes_id` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_tipus_productes_categoria_productes1_idx` (`categoria_productes_id` ASC) VISIBLE,
-  CONSTRAINT `fk_tipus_productes_categoria_productes1`
-    FOREIGN KEY (`categoria_productes_id`)
-    REFERENCES `pizzeria_machado`.`categoria_productes` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
 CREATE TABLE IF NOT EXISTS `pizzeria_machado`.`productes` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `descripció` VARCHAR(255) NOT NULL,
-  `imatge` BLOB NOT NULL,
-  `preu` FLOAT NOT NULL,
-  `tipus_productes_id` INT NOT NULL,
+  `nom` VARCHAR(45) NOT NULL,
+  `descripció` VARCHAR(255) NULL,
+  `imatge` VARCHAR(45) NULL,
+  `preu` FLOAT NULL,
+  `categoria_productes_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_productes_tipus_productes1_idx` (`tipus_productes_id` ASC) VISIBLE,
-  CONSTRAINT `fk_productes_tipus_productes1`
-    FOREIGN KEY (`tipus_productes_id`)
-    REFERENCES `pizzeria_machado`.`tipus_productes` (`id`)
+  INDEX `fk_productes_categoria_productes1_idx` (`categoria_productes_id` ASC) VISIBLE,
+  CONSTRAINT `fk_productes_categoria_productes1`
+    FOREIGN KEY (`categoria_productes_id`)
+    REFERENCES `pizzeria_machado`.`categoria_productes` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -139,12 +127,12 @@ CREATE TABLE IF NOT EXISTS `pizzeria_machado`.`comandes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `data_comanda` DATE NOT NULL,
   `hora_comanda` TIME NOT NULL,
-  `hora_recollida` TIME NULL,
-  `data_recollida` DATE NULL,
+  `hora_recollida` TIME NULL DEFAULT NULL,
+  `data_recollida` DATE NULL DEFAULT NULL,
   `productes_id` INT NOT NULL,
   `recollides_id` INT NOT NULL,
   `botiga_id` INT NOT NULL,
-  `empleats_id` INT NULL,
+  `empleats_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_comandes_productes1_idx` (`productes_id` ASC) VISIBLE,
   INDEX `fk_comandes_recollides1_idx` (`recollides_id` ASC) VISIBLE,
