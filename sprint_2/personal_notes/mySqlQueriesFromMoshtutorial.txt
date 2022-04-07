@@ -113,3 +113,92 @@ LEFT JOIN shippers sh
 JOIN order_statuses os
 	ON o.status = os.order_status_id
 ORDER BY os.name;
+
+
+*********************************************
+
+
+SELECT
+	p.date,
+    c.name AS client,
+    p.amount,
+    pm.name AS name
+FROM sql_invoicing.payments p
+JOIN sql_invoicing.clients c
+	USING (client_id)
+JOIN sql_invoicing.payment_methods pm
+	ON p.payment_method = pm.payment_method_id
+
+
+USE sql_store;
+
+SELECT
+	sh.name AS shippers,
+    p.name AS product
+FROM shippers sh
+CROSS JOIN products p
+
+ 
+
+USE sql_store;
+
+SELECT
+	customer_id,
+    first_name,
+    points,
+    'Bronze' AS type
+FROM customers
+WHERE points < 2000
+UNION
+SELECT
+	customer_id,
+    first_name,
+    points,
+    'Silver' AS type
+FROM customers
+WHERE points BETWEEN 2000 AND 3000
+UNION
+SELECT
+	customer_id,
+    first_name,
+    points,
+    'Gold' AS type
+FROM customers
+WHERE points > 3000
+ORDER BY first_name 
+
+
+*********************
+
+USE sql_invoicing;
+CREATE TABLE invoices_archived AS
+SELECT 
+	i.invoice_id,
+    i.number,
+    c.name AS client
+    i.invoice_total,
+    i.payment_total,
+    i.invoice_date,
+    i.due_date,
+    i.payment_date
+FROM invoices i
+JOIN clients c
+	USING (client_id)
+WHERE i.payment_date IS NOT NULL;
+
+**********************
+
+USE sql_store;
+UPDATE customers
+SET points = points + 50
+WHERE birth_date < '1990-01-01';
+
+***********************
+
+USE sql_store;
+UPDATE orders o
+SET o.comments = 'Gold customer'
+WHERE o.customer_id IN
+		(SELECT customer_id
+		FROM customers c
+		WHERE c.points > 3000)
