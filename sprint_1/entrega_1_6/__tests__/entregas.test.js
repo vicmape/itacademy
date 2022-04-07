@@ -8,17 +8,17 @@
 
 test('Get salary of Linus Torvalds (id = 1) to equal 4000', () => {
     const e_1_4 = require('../../entrega_1_4');
-    return expect(e_1_4.getEmployee(1).then(res => e_1_4.getSalary(res))).resolves.toBe(4000);
+    return expect(e_1_4.getEmployee(1).then(res => e_1_4.getSalary(res).then(sal => sal))).resolves.toBe(4000);
 });
 
 test('Get salary of Linus Torvalds (id = 2) to equal 4000', () => {
     const e_1_4 = require('../../entrega_1_4');
-    return expect(e_1_4.getEmployee(2).then(res => e_1_4.getSalary(res))).resolves.toBe(1000);
+    return expect(e_1_4.getEmployee(2).then(res => e_1_4.getSalary(res).then(sal => sal))).resolves.toBe(1000);
 });
 
 test('Get salary of Linus Torvalds (id = 3) to equal 4000', () => {
     const e_1_4 = require('../../entrega_1_4');
-    return expect(e_1_4.getEmployee(3).then(res => e_1_4.getSalary(res))).resolves.toBe(2000);
+    return expect(e_1_4.getEmployee(3).then(res => e_1_4.getSalary(res).then(sal => sal))).resolves.toBe(2000);
 });
 
 

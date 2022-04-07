@@ -38,17 +38,28 @@ const getEmployee = (id) => {
 }
 
 const getSalary = (employee) => {
-    return salaries.find(id => id.id == employee.id).salary;
+    return new Promise((resolve, reject) => {
+
+        let salary = salaries.find(id => id.id == employee.id).salary
+
+        if (salary != undefined) {
+            resolve(salary);
+        } else {
+            reject(new Error(`Error: employee ${employee} does not work here`));
+        }
+    });
 }
 
-// employees.length + 1 to generate an error in the calls
+// TEST N1 E1 - uncomment lines below (NOTE: employees.length + 1 to generate an error in the calls)
+
 // for (let i = 0; i < employees.length + 1; i++) {
 //     try {
 
 //         getEmployee(i)
-//         .then(res => {
-//             console.log(res);
-//             console.log(`Salary: ${getSalary(res)}`);
+//         .then(emp => {
+//             getSalary(emp)
+//             .then (sal => console.log(`Name: ${emp.name},  Salary: ${sal}`))
+//             .catch(err => console.log(err.message));
 //         })
 //         .catch(err => console.log(err.message));
 //     } catch (err) {
