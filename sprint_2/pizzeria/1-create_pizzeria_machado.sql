@@ -132,12 +132,13 @@ CREATE TABLE IF NOT EXISTS `pizzeria_machado`.`productes` (
   `categoria` ENUM('normal', 'especial', 'premium') NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
 CREATE TABLE IF NOT EXISTS `pizzeria_machado`.`conte_productes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `comandes_id` INT NOT NULL,
   `productes_id` INT NOT NULL,
   INDEX `fk_has_products_comandes1_idx` (`comandes_id` ASC) VISIBLE,
   INDEX `fk_has_products_productes1_idx` (`productes_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_has_products_comandes1`
     FOREIGN KEY (`comandes_id`)
     REFERENCES `pizzeria_machado`.`comandes` (`id`)
