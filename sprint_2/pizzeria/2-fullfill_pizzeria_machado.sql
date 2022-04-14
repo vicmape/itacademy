@@ -70,11 +70,6 @@ INSERT INTO feines(feina)
 VALUES
 		('cuiner'),
 		('repartidor');
-
-INSERT INTO recollides(tipus)
-VALUES
-	('botiga'),
-    ('domicili');
     
 INSERT INTO clients(nom, cognoms, adreça, codi_postal, telèfon, localitats_id)
 VALUES
@@ -179,11 +174,6 @@ VALUES
 		('N99','C99','A99', 000099, 000099, 9),
 		('N100','C100','A100', 0000100, 0000100, 12);
 
-INSERT INTO categoria_productes(categoria)
-VALUES
-		('estandard'),
-		('special'),
-		('premium');
         
 INSERT INTO botiga(adreça, codi_postal, localitats_id)
 VALUES    
@@ -310,14 +300,14 @@ VALUES
 		('N98','C98','NIF98', 000098, 1, 12, 37),
 		('N99','C99','NIF99', 000099, 1, 16, 7),
 		('N100','C100','NIF100', 0000100, 1, 4, 22);
-        
-INSERT INTO productes(nom, descripció, imatge, preu, categoria_productes_id)
+
+INSERT INTO productes(nom, descripció, imatge, preu, categoria)
 VALUES
-		('pizza', 'descripció1', 'imatge1', 1.99, 1),
-        ('pizza', 'descripció2', 'imatge2', 2.99, 2),
-        ('pizza', 'descripció3', 'imatge3', 3.99, 3),
-        ('hamburguesa', 'descripció4', 'imatge4', 4.99, 2),
-        ('beguda', 'descripció5', 'imatge5', 5.99, 2);
+		('pizza', 'descripció1', 'imatge1', 1.99, 'normal'),
+        ('pizza', 'descripció2', 'imatge2', 2.99, 'especial'),
+        ('pizza', 'descripció3', 'imatge3', 3.99, 'premium'),
+        ('hamburguesa', 'descripció4', 'imatge4', 4.99, 'normal'),
+        ('beguda', 'descripció5', 'imatge5', 5.99, 'normal');
         
         
 INSERT INTO comandes(data_comanda, hora_comanda, data_recollida, hora_recollida, productes_id, recollides_id, botiga_id, empleats_id)
