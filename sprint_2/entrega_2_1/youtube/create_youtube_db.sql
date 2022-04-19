@@ -1,5 +1,6 @@
 DROP SCHEMA IF EXISTS `schema_spotify`;
 CREATE SCHEMA IF NOT EXISTS `schema_spotify` DEFAULT CHARACTER SET utf8;
+USE `schema_spotify`;
 
 CREATE TABLE IF NOT EXISTS `schema_spotify`.`user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,

@@ -1,5 +1,6 @@
 DROP SCHEMA IF EXISTS `optica_machado`;
 CREATE SCHEMA `optica_machado` DEFAULT CHARACTER SET utf8;
+USE `optica_machado`;
 
 CREATE TABLE IF NOT EXISTS `optica_machado`.`address` (
   `address_id` INT NOT NULL AUTO_INCREMENT,

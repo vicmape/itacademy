@@ -1,6 +1,6 @@
 DROP SCHEMA IF EXISTS `pizzeria_machado`;
-
 CREATE SCHEMA IF NOT EXISTS `pizzeria_machado` DEFAULT CHARACTER SET utf8;
+USE `pizzeria_machado`;
 
 CREATE TABLE IF NOT EXISTS `pizzeria_machado`.`provincies` (
   `id` INT NOT NULL AUTO_INCREMENT,
