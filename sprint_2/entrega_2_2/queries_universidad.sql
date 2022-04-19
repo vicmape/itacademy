@@ -3,11 +3,51 @@ USE universidad;
 -- Si us plau, descàrrega la base de dades del fitxer schema_universidad.sql, visualitza el diagrama E-R en un editor i efectua les següents consultes:
 
 -- 1 - Retorna un llistat amb el primer cognom, segon cognom i el nom de tots els alumnes. El llistat haurà d'estar ordenat alfabèticament de menor a major pel primer cognom, segon cognom i nom.
+SELECT p.apellido1, p.apellido2, p.nombre
+FROM persona p
+WHERE p.tipo = 'alumno'
+ORDER BY p.apellido1 ASC, p.apellido2 ASC, p.nombre ASC;
+    
 -- 2 - Esbrina el nom i els dos cognoms dels alumnes que no han donat d'alta el seu número de telèfon en la base de dades.
+SELECT p.nombre, p.apellido1, p.apellido2
+FROM persona p
+WHERE
+	p.tipo = 'alumno' AND 
+    p.telefono IS NULL;
+
 -- 3 - Retorna el llistat dels alumnes que van néixer en 1999.
+SELECT p.nombre, p.apellido1, p.apellido2
+FROM persona p
+WHERE
+	p.tipo = 'alumno' AND 
+    p.fecha_nacimiento BETWEEN '1999-01-01' AND '1999-12-31';
+    
 -- 4 - Retorna el llistat de professors que no han donat d'alta el seu número de telèfon en la base de dades i a més la seva nif acaba en K.
+SELECT p.nombre, p.apellido1, p.apellido2
+FROM persona p
+WHERE
+	p.tipo = 'profesor' AND 
+    p.telefono IS NULL AND
+    p.nif REGEXP 'K$';
+
 -- 5 - Retorna el llistat de les assignatures que s'imparteixen en el primer quadrimestre, en el tercer curs del grau que té l'identificador 7.
--- 6 - Retorna un llistat dels professors juntament amb el nom del departament al qual estan vinculats. El llistat ha de retornar quatre columnes, primer cognom, segon cognom, nom i nom del departament. El resultat estarà ordenat alfabèticament de menor a major pels cognoms i el nom.
+SELECT a.nombre AS 'asignatura'
+FROM asignatura a
+WHERE 
+	a.cuatrimestre = 1 AND
+    a.curso = 3 AND 
+    a.id_grado = 7;
+
+-- 6 -  Retorna un llistat dels professors juntament amb el nom del departament al qual estan vinculats. El llistat ha de retornar quatre columnes, primer cognom, segon cognom, nom i nom del departament.
+     -- El resultat estarà ordenat alfabèticament de menor a major pels cognoms i el nom.
+SELECT p.apellido1, p.apellido2, p.nombre, d.nombre AS 'departamento'
+FROM profesor pr
+JOIN departamento d
+	ON 	pr.id_departamento = d.id
+JOIN persona p
+	ON pr.id_profesor = p.id
+ORDER BY p.apellido1 ASC, p.apellido2 ASC, p.nombre ASC;
+
 -- 7 - Retorna un llistat amb el nom de les assignatures, any d'inici i any de fi del curs escolar de l'alumne amb nif 26902806M.
 -- 8 - Retorna un llistat amb el nom de tots els departaments que tenen professors que imparteixen alguna assignatura en el Grau en Enginyeria Informàtica (Pla 2015).
 -- 9 - Retorna un llistat amb tots els alumnes que s'han matriculat en alguna assignatura durant el curs escolar 2018/2019.
