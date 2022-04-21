@@ -1,3 +1,6 @@
+https://www.youtube.com/watch?v=-56x56UppqQ
+https://www.youtube.com/watch?v=pWbMrx5rVBE
+
 mongo localhost:27017/optica3000 script.js
 
 
