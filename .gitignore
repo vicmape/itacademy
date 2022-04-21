@@ -1,2 +1,2 @@
 # Ignore node_modules files
-sprint_1/entrega_1_6/node_modules/*
+**/node_modules
