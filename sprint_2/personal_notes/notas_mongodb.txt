@@ -1,0 +1,59 @@
+mongo localhost:27017/optica3000 script.js
+
+
+db.createCollection('proveidors');
+db.createCollection('clients');
+
+db.proveidors.insert({
+	nom:"",
+	address:{
+		street:"",
+		num:"",
+		pis:"",
+		porta:"",
+		ciutat:"",
+		codi_postal:"",
+		pais:""
+	},
+	telf:"",
+	fax:"",
+	nif:"",
+	ulleres:[
+		{
+			id:"",
+			marca:"",
+			grad_esq:"",
+			grad_der:"",
+			montura:"",
+			color_mont:"",
+			color_vid:"", preu:""
+		}
+	]
+});
+
+db.clients.insert({
+	nom:"",
+	address:{
+		street:"",
+		num:"",
+		pis:"",
+		porta:"",
+		ciutat:"",
+		codi_postal:"",
+		pais:""
+	},
+	telf:"",
+	email:"",
+	data_registre:"",
+	recomanat:"",
+	compres:[
+		{
+			ulleres_id:["", ""],
+			empleat:"",
+			data:"",
+			preu_total:""
+		}
+	]
+});
+
+
