@@ -1,231 +1,219 @@
-DROP SCHEMA IF EXISTS `schema_spotify`;
-CREATE SCHEMA IF NOT EXISTS `schema_spotify` DEFAULT CHARACTER SET utf8;
-USE `schema_spotify`;
+DROP SCHEMA IF EXISTS `youtube_machado`;
+CREATE SCHEMA IF NOT EXISTS `youtube_machado` DEFAULT CHARACTER SET utf8;
+USE `youtube_machado`;
 
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`user` (
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
-  `kind_of_user` ENUM('free', 'premium') NOT NULL,
   `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
   `username` VARCHAR(45) NOT NULL,
-  `birthdate` DATETIME NOT NULL,
+  `birthdate` DATE NOT NULL,
   `gender` ENUM('male', 'female', 'no answer') NOT NULL,
   `country` VARCHAR(3) NOT NULL,
-  `zipcode` TINYINT(10) NOT NULL,
-  PRIMARY KEY (`user_id`))
+  `zipcode` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`credit_card` (
-  `credit_card_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `number` VARCHAR(45) NOT NULL,
-  `month` VARCHAR(2) NOT NULL,
-  `year` VARCHAR(4) NOT NULL,
-  `cvc` VARCHAR(3) NOT NULL,
-  PRIMARY KEY (`credit_card_id`),
-  INDEX `fk_credit_card_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_credit_card_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`paypal` (
-  `paypal_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `username` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`paypal_id`),
-  INDEX `fk_paypal_user_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_paypal_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`subscription` (
-  `subscription_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  `start_date` DATE NOT NULL,
-  `renovation_date` DATE NOT NULL,
-  `payment_method` ENUM('credit card', 'paypal') NOT NULL,
-  PRIMARY KEY (`subscription_id`),
-  INDEX `fk_subscription_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_subscription_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`payment` (
-  `payment_id` INT NOT NULL AUTO_INCREMENT,
-  `subscription_id` INT NOT NULL,
-  `date` DATE NOT NULL,
-  `total` INT NOT NULL,
-  PRIMARY KEY (`payment_id`),
-  INDEX `fk_payment_subscription1_idx` (`subscription_id` ASC) VISIBLE,
-  CONSTRAINT `fk_payment_subscription1`
-    FOREIGN KEY (`subscription_id`)
-    REFERENCES `schema_spotify`.`subscription` (`subscription_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`artist` (
-  `artist_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`channel` (
+  `channel_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `image` VARCHAR(45) NOT NULL,
-  `kind_of_music` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`artist_id`))
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`album` (
-  `album_id` INT NOT NULL AUTO_INCREMENT,
-  `artist_id` INT NOT NULL,
-  `title` VARCHAR(45) NOT NULL,
-  `publication_date` DATE NOT NULL,
-  `image` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`album_id`),
-  INDEX `fk_album_artist1_idx` (`artist_id` ASC) VISIBLE,
-  CONSTRAINT `fk_album_artist1`
-    FOREIGN KEY (`artist_id`)
-    REFERENCES `schema_spotify`.`artist` (`artist_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`song` (
-  `song_id` INT NOT NULL AUTO_INCREMENT,
-  `album_id` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `duration` INT NOT NULL,
-  `num_of_reproductions` INT NOT NULL,
-  PRIMARY KEY (`song_id`),
-  INDEX `fk_song_album1_idx` (`album_id` ASC) VISIBLE,
-  CONSTRAINT `fk_song_album1`
-    FOREIGN KEY (`album_id`)
-    REFERENCES `schema_spotify`.`album` (`album_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`playlist` (
-  `playlist_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `title` VARCHAR(45) NOT NULL,
-  `num_of_songs` INT NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
   `creation_date` DATE NOT NULL,
-  `deletion_date` DATE NOT NULL,
-  `status` ENUM('active', 'deleted') NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`channel_id`),
+  INDEX `fk_channel_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_channel_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `youtube_machado`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`has_subscriptions` (
+  `has_subscriptions_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `channel_id` INT NOT NULL,
+  PRIMARY KEY (`has_subscriptions_id`),
+  INDEX `fk_has_subscriptions_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_has_subscriptions_channel1_idx` (`channel_id` ASC) VISIBLE,
+  CONSTRAINT `fk_has_subscriptions_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `youtube_machado`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_has_subscriptions_channel1`
+    FOREIGN KEY (`channel_id`)
+    REFERENCES `youtube_machado`.`channel` (`channel_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`video` (
+  `video_id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(255) NULL DEFAULT NULL,
+  `size_in_bytes` INT NOT NULL,
+  `filename` VARCHAR(255) NOT NULL,
+  `lenght_in_seconds` INT NOT NULL,
+  `thumbnail` VARCHAR(45) NOT NULL,
+  `reproductions` INT UNSIGNED NOT NULL DEFAULT 0,
+  `publish_date` DATE NOT NULL,
+  `publish_time` TIME NOT NULL,
+  `video_status` ENUM('public', 'ocult', 'privat') NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`video_id`),
+  INDEX `fk_video_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_video_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `youtube_machado`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`channel_has_videos` (
+  `channel_has_videos_id` INT NOT NULL,
+  `channel_id` INT NOT NULL,
+  `video_id` INT NOT NULL,
+  PRIMARY KEY (`channel_has_videos_id`),
+  INDEX `fk_channel_has_videos_channel1_idx` (`channel_id` ASC) VISIBLE,
+  INDEX `fk_channel_has_videos_video1_idx` (`video_id` ASC) VISIBLE,
+  CONSTRAINT `fk_channel_has_videos_channel1`
+    FOREIGN KEY (`channel_id`)
+    REFERENCES `youtube_machado`.`channel` (`channel_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_channel_has_videos_video1`
+    FOREIGN KEY (`video_id`)
+    REFERENCES `youtube_machado`.`video` (`video_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`hashtag` (
+  `hashtag_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`hashtag_id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`has_hashtags` (
+  `has_hashtags_id` INT NOT NULL,
+  `video_id` INT NOT NULL,
+  `hashtag_id` INT NOT NULL,
+  PRIMARY KEY (`has_hashtags_id`),
+  INDEX `fk_has_hashtags_video1_idx` (`video_id` ASC) VISIBLE,
+  INDEX `fk_has_hashtags_hashtag1_idx` (`hashtag_id` ASC) VISIBLE,
+  CONSTRAINT `fk_has_hashtags_video1`
+    FOREIGN KEY (`video_id`)
+    REFERENCES `youtube_machado`.`video` (`video_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_has_hashtags_hashtag1`
+    FOREIGN KEY (`hashtag_id`)
+    REFERENCES `youtube_machado`.`hashtag` (`hashtag_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`comments` (
+  `comments_id` INT NOT NULL,
+  `comment` VARCHAR(255) NOT NULL,
+  `date` DATE NOT NULL,
+  `time` TIME NOT NULL,
+  `video_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`comments_id`),
+  INDEX `fk_has_comments_video1_idx` (`video_id` ASC) VISIBLE,
+  INDEX `fk_has_comments_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_has_comments_video1`
+    FOREIGN KEY (`video_id`)
+    REFERENCES `youtube_machado`.`video` (`video_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_has_comments_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `youtube_machado`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`playlist` (
+  `playlist_id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `date` DATE NOT NULL,
+  `public` VARCHAR(1) BINARY NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`playlist_id`),
   INDEX `fk_playlist_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_playlist_user1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
+    REFERENCES `youtube_machado`.`user` (`user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`favorite_album` (
-  `favorite_album_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`likes_comments` (
+  `likes_comments_id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATE NOT NULL,
+  `time` TIME NOT NULL,
   `user_id` INT NOT NULL,
-  `album_id` INT NOT NULL,
-  PRIMARY KEY (`favorite_album_id`),
-  INDEX `fk_favorite_album_user1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_favorite_album_album1_idx` (`album_id` ASC) VISIBLE,
-  CONSTRAINT `fk_favorite_album_user1`
+  `comments_id` INT NOT NULL,
+  `is_like` TINYINT(1) NULL,
+  PRIMARY KEY (`likes_comments_id`),
+  INDEX `fk_likes_comments_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_likes_comments_comments1_idx` (`comments_id` ASC) VISIBLE,
+  CONSTRAINT `fk_likes_comments_user1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_favorite_album_album1`
-    FOREIGN KEY (`album_id`)
-    REFERENCES `schema_spotify`.`album` (`album_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`favorite_song` (
-  `favorite_song_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `song_id` INT NOT NULL,
-  PRIMARY KEY (`favorite_song_id`),
-  INDEX `fk_favorite_song_user1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_favorite_song_song1_idx` (`song_id` ASC) VISIBLE,
-  CONSTRAINT `fk_favorite_song_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_favorite_song_song1`
-    FOREIGN KEY (`song_id`)
-    REFERENCES `schema_spotify`.`song` (`song_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`playlist_shared` (
-  `playlist_shared_id` INT NOT NULL AUTO_INCREMENT,
-  `playlist_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`playlist_shared_id`),
-  INDEX `fk_playlist_shared_playlist1_idx` (`playlist_id` ASC) VISIBLE,
-  INDEX `fk_playlist_shared_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_playlist_shared_playlist1`
-    FOREIGN KEY (`playlist_id`)
-    REFERENCES `schema_spotify`.`playlist` (`playlist_id`)
+    REFERENCES `youtube_machado`.`user` (`user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_playlist_shared_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
+  CONSTRAINT `fk_likes_comments_comments1`
+    FOREIGN KEY (`comments_id`)
+    REFERENCES `youtube_machado`.`comments` (`comments_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`add_song_playlist` (
-  `user_id` INT NOT NULL,
-  `playlist_id` INT NOT NULL,
-  `song_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`likes_video` (
+  `likes_id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
-  INDEX `fk_add_song_playlist_user1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_add_song_playlist_playlist1_idx` (`playlist_id` ASC) VISIBLE,
-  INDEX `fk_add_song_playlist_song1_idx` (`song_id` ASC) VISIBLE,
-  CONSTRAINT `fk_add_song_playlist_user1`
+  `time` TIME NOT NULL,
+  `video_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `is_like` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`likes_id`),
+  INDEX `fk_has_likes_video1_idx` (`video_id` ASC) VISIBLE,
+  INDEX `fk_has_likes_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_has_likes_video1`
+    FOREIGN KEY (`video_id`)
+    REFERENCES `youtube_machado`.`video` (`video_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_has_likes_user1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_add_song_playlist_playlist1`
-    FOREIGN KEY (`playlist_id`)
-    REFERENCES `schema_spotify`.`playlist` (`playlist_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_add_song_playlist_song1`
-    FOREIGN KEY (`song_id`)
-    REFERENCES `schema_spotify`.`song` (`song_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `youtube_machado`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `schema_spotify`.`favorite_artist` (
-  `favorite_artist_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `artist_id` INT NOT NULL,
-  PRIMARY KEY (`favorite_artist_id`),
-  INDEX `fk_follows_artist_user1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_follows_artist_artist1_idx` (`artist_id` ASC) VISIBLE,
-  CONSTRAINT `fk_follows_artist_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `schema_spotify`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_follows_artist_artist1`
-    FOREIGN KEY (`artist_id`)
-    REFERENCES `schema_spotify`.`artist` (`artist_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+CREATE TABLE IF NOT EXISTS `youtube_machado`.`playlist_has_videos` (
+  `has_videos_id` INT NOT NULL AUTO_INCREMENT,
+  `playlist_id` INT NOT NULL,
+  `video_id` INT NOT NULL,
+  PRIMARY KEY (`has_videos_id`),
+  INDEX `fk_has_videos_playlist1_idx` (`playlist_id` ASC) VISIBLE,
+  INDEX `fk_has_videos_video1_idx` (`video_id` ASC) VISIBLE,
+  CONSTRAINT `fk_has_videos_playlist1`
+    FOREIGN KEY (`playlist_id`)
+    REFERENCES `youtube_machado`.`playlist` (`playlist_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_has_videos_video1`
+    FOREIGN KEY (`video_id`)
+    REFERENCES `youtube_machado`.`video` (`video_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
