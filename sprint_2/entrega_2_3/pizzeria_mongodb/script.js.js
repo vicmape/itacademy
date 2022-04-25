@@ -1,5 +1,5 @@
 // ******************************************************
-// pizzeria
+// youtube
 // ******************************************************
 
 
@@ -12,18 +12,12 @@ db.clients.insert({
 	nom:"",
 	cognom1:"",
 	cognom2:"",
-    telf:"",
-    adresa:{
-        carrer:"",
-        num:"",
-        pis:"",
-        porta:"",
-        ciutat:"",
-        codi_postal:"",
-        localitat:"",
-        provincia:""
-    },
-	comandes:[
+	adresa:"",
+	codi_postal:"",
+	localitat:"",
+	provincia:"",
+	telf:"",
+	comanda:[
 		{
             id:"",
 			data:"",
@@ -58,16 +52,10 @@ db.productes.insert({
 
 db.botigues.insert({
     _id:"",
-    adresa:{
-        carrer:"",
-        num:"",
-        pis:"",
-        porta:"",
-        ciutat:"",
-        codi_postal:"",
-        localitat:"",
-        provincia:""
-    },
+    adresa:"",
+    codi_postal:"",
+    localitat:"",
+    provincia:"",
     empleats:[
         {
             nom:"",
@@ -85,6 +73,5 @@ db.botigues.insert({
             tel:"",
             tipus_treball:""
         }
-    ],
-    comandes_id:[""]
+    ]
 });
