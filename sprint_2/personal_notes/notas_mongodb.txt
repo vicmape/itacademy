@@ -3,6 +3,9 @@ https://www.youtube.com/watch?v=pWbMrx5rVBE
 
 mongo localhost:27017/optica3000 script.js
 
+******************************************************
+optica
+******************************************************
 
 db.createCollection('proveidors');
 db.createCollection('clients');
@@ -29,7 +32,8 @@ db.proveidors.insert({
 			grad_der:"",
 			montura:"",
 			color_mont:"",
-			color_vid:"", preu:""
+			color_vid:"",
+			preu:""
 		}
 	]
 });
@@ -58,5 +62,35 @@ db.clients.insert({
 		}
 	]
 });
+
+******************************************************
+******************************************************
+******************************************************
+******************************************************
+youtube
+******************************************************
+
+
+db.createCollection('client');
+
+db.clients.insert({
+	nom:"",
+	cognom1:"",
+	cognom2:"",
+	adresa:"",
+	codi_postal:"",
+	localitat:"",
+	provincia:"",
+	telf:"",
+	comanda:[
+		{
+			id:"",
+			
+		}
+	]
+});
+
+
+
 
 
