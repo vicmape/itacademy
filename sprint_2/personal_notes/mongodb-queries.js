@@ -19,9 +19,9 @@ db.Restaurant.find({grades:{$elemMatch: {score: {$gt: 80, $lt: 100}}}})
 // 10 - Escriu una consulta per trobar els restaurants que estan situats longitud inferior a -95.754168
 db.Restaurant.find({"address.coord.0": {$lt: -95.754168}})
 // 11 - Escriu una consulta de MongoDB per a trobar els restaurants que no cuinen  menjar 'American' i tenen algun score superior a 70 i una latitud inferior a -65.754168
-db.Restaurant.find({$and:[{cuisine:{$not: /American/}},{grades:{$elemMatch:{score:{$gt:70}}}},{"address.coord.1": {$lt: -65.754168}}]})
+db.Restaurant.find({$and:[{cuisine:{$not: /American/}},{grades:{$elemMatch:{score:{$gt:70}}}},{"address.coord.1": {$gt: -65.754168}}]})
 // 12 - Escriu una consulta per trobar els restaurants que no preparen menjar 'American' i tenen algun score superior a 70 i que, a més,  és localitzen en longituds inferiors a -65.754168. Nota : Fes aquesta consulta sense utilitzar operador $and 
-db.Restaurant.find({cuisine:{$not: /American/},grades:{$elemMatch:{score:{$gt:70}}},"address.coord.1": {$lt: -65.754168}})
+db.Restaurant.find({cuisine:{$not: /American/},grades:{$elemMatch:{score:{$gt:70}}},"address.coord.1": {$gt: -65.754168}})
 // 13 - Escriu una consulta per trobar els restaurants que no preparen menjar  'American ', tenen alguna nota 'A' i no pertanyen a Brooklyn. S'ha de mostrar el document segons la cuisine en ordre descendent
 db.Restaurant.find({cuisine: {$not: /American/}, grades: {$elemMatch: {grade: "A"}}, borough: {$not: /Brooklyn/}}).sort({cuisine:-1})
 // 14 - Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que contenen 'Wil' en les tres primeres lletres en el seu nom
@@ -35,9 +35,19 @@ db.Restaurant.find({borough: "Bronx", cuisine: /(American|Chinese)/}, {borough:1
 // 18 - Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per aquells restaurants que pertanyen a Staten Island, Queens, Bronx o Brooklyn
 db.Restaurant.find({borough: /(Staten Island|Queens|Bronx|Brooklyn)/}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0})
 // 19 - Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que NO pertanyen a Staten Island, Queens, Bronx o Brooklyn
+db.Restaurant.find({borough: {$not: /(Staten Island|Queens|Bronx|Brooklyn)/}}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0})
 // 20 - Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que aconsegueixin una nota menor que 10
+db.Restaurant.find({grades:{$elemMatch:{score:{$lt: 10}}}}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0})
 // 21 - Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que preparen marisc ('seafood') excepte si son 'American', 'Chinese' o el name del restaurant comença amb lletres 'Wil'
+db.Restaurant.find( {cuisine:/seafood/i, name: {$not:/^Wil/}}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0} )
+db.Restaurant.find( {cuisine: /Seafood/, name: /^Wil/}, {name:1, cuisine:1, _id:0} )
+db.Restaurant.find({name: /Reg/})
+db.Restaurant.find( {$or:[name: /^Wil/, ]}, {name:1, cuisine:1, _id:0} )
+db.Restaurant.find({$or:[{name: /^Wil/},{cuisine: /Seafood/}]}, {name:1, cuisine:1, _id:0})
 // 22 - Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants que aconsegueixin un grade de "A" i un score de 11 amb un ISODate "2014-08-11T00:00:00Z"
+db.Restaurant.find({$and:[{grades: {$elemMatch: {grade: "A"}}},{grades:{$elemMatch:{score:11}}},{grades:{$elemMatch:{date:"2014-08-11T00:00:00Z"}}}]}, {restaurant_id:1, name:1, grades:1, _id:0})
+
+db.Restaurant.find({$and:[{grades: {$elemMatch: {grade: "A"}}},{grades:{$elemMatch:{score:11}}}]}, {restaurant_id:1, name:1, grades:1, _id:0})
 // 23 - Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants on el 2n element de l'array de graus conté un grade de "A" i un score 9 amb un ISODate "2014-08-11T00:00:00Z"
 // 24 - Escriu una consulta per trobar el restaurant_id, name, adreça i ubicació geogràfica per a aquells restaurants on el segon element del array coord conté un valor entre 42 i 52
 // 25 - Escriu una consulta per organitzar el nom dels restaurants en ordre ascendent juntament amb totes les columnes
