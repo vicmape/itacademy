@@ -47,6 +47,8 @@ db.Restaurant.find({$or:[{name: /^Wil/},{cuisine: /Seafood/}]}, {name:1, cuisine
 // 22 - Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants que aconsegueixin un grade de "A" i un score de 11 amb un ISODate "2014-08-11T00:00:00Z"
 db.Restaurant.find({$and:[{grades: {$elemMatch: {grade: "A"}}},{grades:{$elemMatch:{score:11}}},{grades:{$elemMatch:{date:"2014-08-11T00:00:00Z"}}}]}, {restaurant_id:1, name:1, grades:1, _id:0})
 
+{restaurant_id:1, name:1, grades:1, _id:0})
+
 db.Restaurant.find({$and:[{grades: {$elemMatch: {grade: "A"}}},{grades:{$elemMatch:{score:11}}}]}, {restaurant_id:1, name:1, grades:1, _id:0})
 // 23 - Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants on el 2n element de l'array de graus conté un grade de "A" i un score 9 amb un ISODate "2014-08-11T00:00:00Z"
 // 24 - Escriu una consulta per trobar el restaurant_id, name, adreça i ubicació geogràfica per a aquells restaurants on el segon element del array coord conté un valor entre 42 i 52
