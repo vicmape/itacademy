@@ -5,14 +5,16 @@ db.artists.insert({
     _id: ObjectId(),
     name:"",
     image:"",
-    music_styles:[],
-    albums:[
+    music_styles:["",""],
+    albums:
+    [
         {
             _id: ObjectId(),
             title:"",
             year:"",
             image:"",
-            songs:[
+            songs:
+            [
                 {
                     _id: ObjectId(),
                     title:"",
@@ -49,24 +51,25 @@ db.users.insert({
                 total:""
             }
         ],
-        playlists:[
-            {
-                _id: ObjectId(),
-                title:"",
-                status:"", //[active|deleted]
-                creation_date:"",
-                deletion_date:"",
-                songs:[
-                    {
-                        added_by_user_id:"",
-                        date:""
-                    }
-                ],
-            }
-        ],
-        fav_artists_id:[],
-        fav_albums_id:[],
-        fav_song_id:[],
-        fav_playlists:[]
-    }
+    },
+    playlists:[
+        {
+            _id: ObjectId(),
+            title:"",
+            status:"", //[active|deleted]
+            creation_date:"",
+            deletion_date:"",
+            songs:[
+                {
+                    added_by_user_id:"",
+                    song_id:"",
+                    date:""
+                }
+            ],
+        }
+    ],
+    fav_artists_id:[],
+    fav_albums_id:[],
+    fav_song_id:[],
+    fav_playlists:[]
 });
