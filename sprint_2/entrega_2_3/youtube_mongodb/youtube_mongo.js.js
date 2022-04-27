@@ -1,7 +1,7 @@
 
 db.createCollection('users');
 
-db.test.insertMany([
+db.users.insertMany([
     {
         _id: ObjectId("000000000000000000000001"),
         username:"victor",
