@@ -39,24 +39,26 @@ db.Restaurant.find({borough: {$not: /(Staten Island|Queens|Bronx|Brooklyn)/}}, {
 // 20 - Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que aconsegueixin una nota menor que 10
 db.Restaurant.find({grades:{$elemMatch:{score:{$lt: 10}}}}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0})
 // 21 - Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que preparen marisc ('seafood') excepte si son 'American', 'Chinese' o el name del restaurant comença amb lletres 'Wil'
-db.Restaurant.find( {cuisine:/seafood/i, name: {$not:/^Wil/}}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0} )
-db.Restaurant.find( {cuisine: /Seafood/, name: /^Wil/}, {name:1, cuisine:1, _id:0} )
-db.Restaurant.find({name: /Reg/})
-db.Restaurant.find( {$or:[name: /^Wil/, ]}, {name:1, cuisine:1, _id:0} )
-db.Restaurant.find({$or:[{name: /^Wil/},{cuisine: /Seafood/}]}, {name:1, cuisine:1, _id:0})
+db.Restaurant.find( {$and:[{cuisine:/seafood/i}, {cuisine:{$not:/american/i}}, {cuisine:{$not:/chinese/i}}, {name: {$not:/^Wil/}}]}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0} )
+db.Restaurant.find( {cuisine:/seafood/i, cuisine:{$not:/american/i}, cuisine:{$not:/chinese/i}, name: {$not:/^Wil/}}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0} )
 // 22 - Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants que aconsegueixin un grade de "A" i un score de 11 amb un ISODate "2014-08-11T00:00:00Z"
-db.Restaurant.find({$and:[{grades: {$elemMatch: {grade: "A"}}},{grades:{$elemMatch:{score:11}}},{grades:{$elemMatch:{date:"2014-08-11T00:00:00Z"}}}]}, {restaurant_id:1, name:1, grades:1, _id:0})
-
-{restaurant_id:1, name:1, grades:1, _id:0})
-
-db.Restaurant.find({$and:[{grades: {$elemMatch: {grade: "A"}}},{grades:{$elemMatch:{score:11}}}]}, {restaurant_id:1, name:1, grades:1, _id:0})
+db.Restaurant.find({$and:[{grades: {$elemMatch: {grade: "A"}}},{grades:{$elemMatch:{score:11}}},{grades:{$elemMatch:{date:ISODate("2014-08-11T00:00:00Z")}}}]}, {restaurant_id:1, name:1, grades:1, _id:0})
 // 23 - Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants on el 2n element de l'array de graus conté un grade de "A" i un score 9 amb un ISODate "2014-08-11T00:00:00Z"
+db.Restaurant.find({"grades.1.grade": "A", "grades.1.score": "9", "grades.1.date": ISODate("2014-08-11T00:00:00Z")}, {restaurant_id:1, name:1, grades:1, _id:0})
 // 24 - Escriu una consulta per trobar el restaurant_id, name, adreça i ubicació geogràfica per a aquells restaurants on el segon element del array coord conté un valor entre 42 i 52
+db.Restaurant.find({$or:[{"address.coord.1": {$gt: 42}}, {"address.coord.1": {$lt: 52}}]}, {restaurant_id:1, name:1, address:1, borough:1, _id:0})
 // 25 - Escriu una consulta per organitzar el nom dels restaurants en ordre ascendent juntament amb totes les columnes
+db.Restaurant.find().sort( { name: 1 } )
 // 26 - Escriu una consulta per organitzar el nom dels restaurants en ordre descendent juntament amb totes les columnes
+db.Restaurant.find().sort( { name: -1 } )
 // 27 - Escriu una consulta per organitzar el nom de la cuisine en ordre ascendent i el barri en ordre descendent
+db.Restaurant.find().sort({cuisine: 1, borough: -1})
 // 28 - Escriu una consulta per saber si les direccions contenen el carrer
+db.Restaurant.find({"address.street":{$exists:true}})
 // 29 - Escriu una consulta que seleccioni tots el documents en la col·lecció de restaurants on els valors del camp coord és de tipus Double
+db.Restaurant.find({"address.coord":{$elemMatch: {$type : "double"}}})
 // 30 - Escriu una consulta que seleccioni el restaurant_id, name i grade per a aquells restaurants que retornen 0 com a residu després de dividir algun dels seus score per 7
 // 31 - Escriu una consulta per trobar el name de restaurant, borough, longitud, latitud i cuisine per a aquells restaurants que contenen 'mon' en algun lloc del seu name
+db.Restaurant.find({name: /mon/},{name:1, borough:1,address:{coord:1}, cuisine:1, _id:0})
 // 32 - Escriu una consulta per trobar el name de restaurant, borough, longitud, latitud i cuisine per a aquells restaurants que conteinen 'Mad' com a primeres tres lletres del seu name
+db.Restaurant.find({name: /^Mad/},{name:1, borough:1,address:{coord:1}, cuisine:1, _id:0})
