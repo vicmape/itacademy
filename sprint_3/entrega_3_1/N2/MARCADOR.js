@@ -1,15 +1,15 @@
-// Class MARCADOR.
+// Class Marcador.
 // It stores players and its scores
-class MARCADOR {
+class Marcador {
     constructor() {
         this.jugadors = [];
         this.puntuacions = []; 
 
-        if(typeof MARCADOR.instance === "object") {
-            return MARCADOR.instance;
+        if(typeof Marcador.instance === "object") {
+            return Marcador.instance;
         }
 
-        MARCADOR.instance = this;
+        Marcador.instance = this;
         return this;
     }
 
@@ -26,4 +26,4 @@ class MARCADOR {
     }
 }
 
-module.exports = {MARCADOR};
+module.exports = Marcador;

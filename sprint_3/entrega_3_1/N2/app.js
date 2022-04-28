@@ -1,16 +1,15 @@
-const jug =  require("./JUGADOR");
-const joc =  require("./JOC");
+const Jugador =  require("./Jugador");
+const Joc =  require("./Joc");
 
 // Crear jugadors
-let jugador1 = new jug.JUGADOR('victor');
-let jugador2 = new jug.JUGADOR('javi');
-let jugador3 = new jug.JUGADOR('ona');
-let jugador4 = new jug.JUGADOR('paula');
-
+let jugador1 = new Jugador('victor');
+let jugador2 = new Jugador('javi');
+let jugador3 = new Jugador('ona');
+let jugador4 = new Jugador('paula');
 
 
 // Crear joc 1
-let joc1 = new joc.JOC("JOC 1");
+let joc1 = new Joc("JOC 1");
 
 // Afegir jugadors al joc 1
 joc1.addJugador(jugador1);
@@ -49,7 +48,7 @@ joc1.end();
 
 
 // Crear joc 2
-let joc2 = new joc.JOC("JOC 2");
+let joc2 = new Joc("JOC 2");
 
 // Afegir jugadors al joc 2
 joc2.addJugador(jugador1);
@@ -67,4 +66,3 @@ joc2.jugadorSuma(jugador2);
 
 // End joc 2
 joc2.end();
-

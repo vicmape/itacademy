@@ -1,14 +1,14 @@
-const marc = require('./MARCADOR');
-const jug = require('./JUGADOR');
+const Marcador = require('./Marcador');
+const Jugador = require('./Jugador');
 
 // Class joc.
 // It extends class marcador. It's in charge of managin the game: add players, start/stop game, maintain the scoreboard
-class JOC {
+class Joc {
     constructor(nom) {
         this.nom = nom;
         this.game_started = 0;
         this.game_ended = 0;
-        this.marcador = new marc.MARCADOR();
+        this.marcador = new Marcador();
     }
 
     // Function: Start the game + show the scoreboard
@@ -61,7 +61,7 @@ class JOC {
             return;
         }
 
-        if (jugador instanceof jug.JUGADOR) {    
+        if (jugador instanceof Jugador) {
             this.marcador.jugadors.push(jugador.nom);
             this.marcador.puntuacions.push(0);
         } else {
@@ -91,4 +91,4 @@ class JOC {
 
 };
 
-module.exports = {JOC};
+module.exports = Joc;
