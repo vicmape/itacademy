@@ -1,0 +1,17 @@
+{
+    "name": "Ex3-2 N3",
+    "version": "1.0.0",
+    "description": "RabbitMQ publisher-subscriber",
+    "main": "app.js",
+    "devDependencies": {
+        "amqplib": "^0.8.0"
+    },
+    "scripts": {
+        "start": "node app.js"
+    },
+    "keywords": [
+        "itacademy"
+    ],
+    "author": "Victor Machado",
+    "license": "ISC"
+}
